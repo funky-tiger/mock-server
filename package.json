@@ -1,17 +1,28 @@
 {
-  "name": "mock-server",
+  "name": "mock-servers",
   "version": "1.0.0",
-  "description": "",
+  "description": "mock-servers",
   "main": "index.js",
   "bin": {
-    "mock-start": "./bin/mock-server.js"
+    "mock-start": "./bin/mock-servers.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "mock",
+    "server"
+  ],
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/funky-tiger/npm-plugin-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/funky-tiger/npm-plugin-template/issues"
+  },
+  "homepage": "https://github.com/funky-tiger/npm-plugin-template#readme",
   "devDependencies": {
     "express": "^4.17.1",
     "request": "^2.88.0"
