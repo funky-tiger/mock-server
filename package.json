@@ -1,6 +1,6 @@
 {
   "name": "mock-servers",
-  "version": "1.0.0",
+  "version": "1.2.8",
   "description": "mock-servers",
   "main": "index.js",
   "bin": {
@@ -23,7 +23,8 @@
     "url": "https://github.com/funky-tiger/npm-plugin-template/issues"
   },
   "homepage": "https://github.com/funky-tiger/npm-plugin-template#readme",
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
     "express": "^4.17.1",
     "request": "^2.88.0"
   }
