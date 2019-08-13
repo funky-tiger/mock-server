@@ -4,78 +4,68 @@ const path = require("path");
 const resolveConfig = require("../lib/resolveConfig.js");
 const resolvePrefix = require("../lib/resolvePrefix.js");
 const cleanCache = require("../lib/utils/cleanCache.js");
-const keppProcess = require("./shell.js");
+const watchProcess = require("./watchProcess.js");
+const net = require("net");
 const fs = require("fs");
+const watch = require("node-watch");
 const serverStart = require("./mock-start.js");
-let config = null;
+const killPort = require("../lib/utils/killport.js");
+const CheckPort = require("../lib/utils/CheckPort.js");
 
-// try {
-let configPath = resolvePrefix(resolveConfig("path"));
-
-// 清除require缓存
-// configPath
-//   ? cleanCache(require.resolve(path.resolve(process.cwd(), configPath)))
-//   : cleanCache(require.resolve(path.resolve(process.cwd(), "mock.config.js")));
-
-// 监听
-if (configPath) {
-  console.log("执行监听>>>>>>>>>>>");
-  fs.watch(
-    configPath
-      ? process.cwd() + "/" + configPath
-      : process.cwd() + "/" + "mock.config.js",
-    { recursive: true },
-    function(evt, name) {
-      console.log("有变化", process.cwd(), configPath);
-      keppProcess(
-        require(path.resolve(process.cwd(), configPath)),
-        configPath ? configPath : "mock.config.js"
-      );
-      process.exit(0);
-    }
-  );
-}
-
-// 接收父进程传递的config
-process.on("message", function(obj) {
-  // console.log("子进程中获取到config：", obj.config);
-  if (obj.config) serverStart(obj.config, false);
-  // 多次监听
-  console.log("执行监听>>>>>>>>>>>");
-  fs.watch(process.cwd() + "/" + obj.configPath, { recursive: true }, function(
-    evt,
-    name
-  ) {
-    console.log("有变化", process.cwd(), obj.configPath);
-    keppProcess(
-      require(path.resolve(process.cwd(), obj.configPath)),
-      obj.configPath
-    );
-    process.exit(0);
-  });
-});
-
-console.log("configPath", configPath);
-try {
-  if (configPath) {
-    config = require(path.resolve(process.cwd(), configPath));
+function mockServers(config, configPath) {
+  if (config) {
+    CheckPort(config.mockServer.port).then(res => {
+      if (res) {
+        // 端口未占用
+        makeServerProcess();
+      } else {
+        //端口占用
+        killPort(config.mockServer.port, function() {
+          makeServerProcess();
+        });
+      }
+    });
   } else {
-    config = require(path.resolve(process.cwd(), "mock.config.js")) || null;
+    // 非第一次更改
+    makeServerProcess();
   }
-} catch (e) {
-  config = null;
+
+  function makeServerProcess() {
+    if (configPath) {
+      watch(
+        configPath
+          ? process.cwd() + "/" + configPath
+          : process.cwd() + "/" + "mock.config.js",
+        { recursive: true },
+        function(evt, name) {
+          console.log("有变化", process.cwd(), "/" + configPath);
+          watchProcess(
+            require(path.resolve(process.cwd(), configPath)),
+            configPath ? configPath : "mock.config.js"
+          );
+          process.exit(0);
+        }
+      );
+    }
+    process.on("message", function(obj) {
+      if (obj.config) serverStart(obj.config, false);
+      // 多次监听
+      watch(process.cwd() + "/" + obj.configPath, { recursive: true }, function(
+        evt,
+        name
+      ) {
+        console.log("有变化", process.cwd(), obj.configPath);
+        watchProcess(
+          require(path.resolve(process.cwd(), obj.configPath)),
+          obj.configPath
+        );
+
+        process.exit(0);
+      });
+    });
+
+    if (config) serverStart(config);
+  }
 }
-
-console.log(">>>", config);
-if (config) serverStart(config);
-
-/**
- *
-
- */
-// } catch (e) {
-//   throw Error(
-//     "未找到mockServer配置文件，请确认根目录有mock.config.js配置文件!",
-//     e
-//   );
-// }
+mockServers();
+module.exports = mockServers;

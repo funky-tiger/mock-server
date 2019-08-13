@@ -5,7 +5,11 @@ const resolvePrefix = require("../lib/resolvePrefix.js");
 const { resolveMockApiList } = require("../lib/router");
 let configPath = resolvePrefix(resolveConfig("path"));
 module.exports = function serverStart(config) {
-  resolveMockApiList(config);
-  let compiler = new Compiler(config);
-  compiler.run(configPath);
+  try {
+    resolveMockApiList(config);
+    let compiler = new Compiler(config);
+    compiler.run(configPath);
+  } catch (e) {
+    console.log(">>>>>>>>>>", e);
+  }
 };
