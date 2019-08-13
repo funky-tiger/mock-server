@@ -1,3 +1,3 @@
-# mock-server
+# mock-server [![Build Status](https://www.travis-ci.org/funky-tiger/mock-servers.svg?branch=master)](https://www.travis-ci.org/funky-tiger/mock-servers)
 
 - demo...
