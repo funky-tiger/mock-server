@@ -1,6 +1,6 @@
 {
   "name": "mock-servers",
-  "version": "1.2.8",
+  "version": "1.6.3",
   "description": "mock-servers",
   "main": "index.js",
   "bin": {
