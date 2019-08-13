@@ -1,20 +1,15 @@
-language: node_js
-node_js:
-  - "12"
-install: true
-script:
-  - npm -v
 jobs:
   include:
-    - stage: deploy
-        script:
-          - echo "NPM Deploying Started ..."
-          - echo "NPM Building Finished."
-
-        deploy:
-          provider: npm
-           email: "$NPM_EMAIL"
-          api_key: "$NPM_TOKEN"
-          skip_cleanup: true
-          on:
-            tags: true
+    - stage: npm release
+      if: tag IS present
+      node_js: "12"
+      script: npm -v
+      before_deploy:
+        - cd dist
+      deploy:
+        provider: npm
+        email: "$NPM_EMAIL"
+        api_key: "$NPM_TOKEN"
+        skip_cleanup: true
+        on:
+          tags: true
