@@ -2,11 +2,12 @@
 
 const child_process = require("child_process");
 const path = require("path");
-const resolveConfig = require("../lib/resolveConfig.js");
-const resolvePrefix = require("../lib/resolvePrefix.js");
+const chalk = require("chalk");
+const resolveConfig = require("../lib/utils/resolveConfig.js");
+const resolvePrefix = require("../lib/utils/resolvePrefix.js");
 const mockServers = require("./mock-servers.js");
-let configPath = resolvePrefix(resolveConfig("path"));
 
+let configPath = resolvePrefix(resolveConfig("path"));
 let config = null;
 
 try {
@@ -19,13 +20,25 @@ try {
     `node ${path.resolve(__dirname, "./mock-servers.js")}`,
     function(err, stdout, stderr) {
       if (err) {
-        return console.log(err);
+        return console.log(chalk.red.bold("💔  ", err));
       }
-      mockServers(config, configPath);
+      if (configPath) {
+        mockServers(config, configPath);
+      } else {
+        mockServers(config, "mock.config.js");
+      }
     }
   );
 } catch (e) {
   if (e.code === "MODULE_NOT_FOUND") {
-    throw new Error("未找到mock.config.js配置文件");
+    console.log(
+      chalk.red.bold(
+        "💔  未找到MockServers配置文件，请指定配置文件或确认根目录有mock.config.js配置文件..."
+      )
+    );
+    // throw new Error(
+    //   "未找到mockServer配置文件，请确认根目录有mock.config.js配置文件!",
+    //   e
+    // );
   }
 }

@@ -4,7 +4,7 @@ const child_process = require("child_process");
 const cleanCache = require("../lib/utils/cleanCache.js");
 
 module.exports = function watchProcess(config, configPath) {
-  console.log("开启进程守护中...", configPath);
+  // console.log("开启进程守护中...", configPath);
   // process.on("SIGINT", function() {
   //   console.log("要退出吗?");
   //   setTimeout(function() {

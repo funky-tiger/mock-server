@@ -1,8 +1,9 @@
 #! /usr/bin/env node
 const Compiler = require("../lib/Compiler.js");
-const resolveConfig = require("../lib/resolveConfig.js");
-const resolvePrefix = require("../lib/resolvePrefix.js");
+const resolveConfig = require("../lib/utils/resolveConfig.js");
+const resolvePrefix = require("../lib/utils/resolvePrefix.js");
 const { resolveMockApiList } = require("../lib/router");
+
 let configPath = resolvePrefix(resolveConfig("path"));
 module.exports = function serverStart(config) {
   try {
@@ -10,6 +11,6 @@ module.exports = function serverStart(config) {
     let compiler = new Compiler(config);
     compiler.run(configPath);
   } catch (e) {
-    console.log(">>>>>>>>>>", e);
+    return console.log(chalk.red.bold("💔  ", e));
   }
 };
