@@ -33,6 +33,12 @@ function mockServers(config, configPath) {
         evt,
         name
       ) {
+        if (evt === "remove") {
+          console.log(
+            chalk.red.bold("💔  配置文件丢失，请确认配置文件名称和位置!")
+          );
+          return;
+        }
         console.log(
           chalk.blue.bold(`👉  检测到./${configPath}变化, 自动重启中...`)
         );
@@ -50,6 +56,12 @@ function mockServers(config, configPath) {
         evt,
         name
       ) {
+        if (evt === "remove") {
+          console.log(
+            chalk.red.bold("💔  配置文件丢失，请确认配置文件名称和位置!")
+          );
+          return;
+        }
         console.log(
           chalk.blue.bold(`👉  检测到./${obj.configPath}变化, 自动重启中...`)
         );
