@@ -50,7 +50,7 @@ function mockServers(config, configPath) {
       });
     }
     process.on("message", function(obj) {
-      if (obj.config) serverStart(obj.config, false);
+      if (obj.config) serverStart(obj.config, configPath);
       // 多次监听
       watch(process.cwd() + "/" + obj.configPath, { recursive: true }, function(
         evt,
@@ -74,7 +74,7 @@ function mockServers(config, configPath) {
       });
     });
 
-    if (config) serverStart(config);
+    if (config) serverStart(config, configPath);
   }
 }
 mockServers();

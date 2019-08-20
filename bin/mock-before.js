@@ -36,9 +36,5 @@ try {
         "💔  未找到MockServers配置文件，请指定配置文件或确认根目录有mock.config.js配置文件..."
       )
     );
-    // throw new Error(
-    //   "未找到mockServer配置文件，请确认根目录有mock.config.js配置文件!",
-    //   e
-    // );
   }
 }
