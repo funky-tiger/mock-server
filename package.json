@@ -1,6 +1,6 @@
 {
   "name": "mock-servers",
-  "version": "1.8.8",
+  "version": "1.9.1",
   "description": "mock-servers",
   "main": "index.js",
   "bin": {
@@ -27,6 +27,7 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "express": "^4.17.1",
+    "mime": "^2.4.4",
     "node-watch": "^0.6.3",
     "request": "^2.88.0"
   }
