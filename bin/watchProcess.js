@@ -32,7 +32,6 @@ module.exports = function watchProcess(config, configPath) {
     delete worker;
 
     console.log(`worker:[${worker.pid}] is exited...`);
-    // process.exit()
     worker = child_process.fork(path.resolve(__dirname, "./mock-servers.js"));
   });
 
