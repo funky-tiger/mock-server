@@ -173,3 +173,7 @@ module.exports = {
   - 1. 因为用了 --dirname,导致查找路径错误 从而找不到 mock.server.js
        > 使用 process.cwd() 来获取 node 工作路径
 - 2. 在 mock.config.js 中配置了 mockPath，而该路径为空的时候会出错
+- 3. request 模拟客户端发送请求时，如果后端要求是 application/json 格式，而传递了 form 参数，则会报 content-type 错误
+     > POST 请求 application/json， 使用 body 字段，不要使用 form 字段 (如果 body 参数的值是 json 格式，需进行序列化处理)
+     > POST 请求 form 表单格式，使用 form 字段
+     > GET 请求 使用 qs 字段

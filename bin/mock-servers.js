@@ -50,7 +50,7 @@ function mockServers(config, configPath) {
       });
     }
     process.on("message", function(obj) {
-      if (obj.config) serverStart(obj.config, configPath);
+      if (obj.config) serverStart(obj.config, obj.configPath);
       // 多次监听
       watch(process.cwd() + "/" + obj.configPath, { recursive: true }, function(
         evt,
