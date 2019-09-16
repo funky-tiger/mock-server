@@ -112,6 +112,8 @@ module.exports = {
 
 - 3. 自动备份静态资源文件
 
+- 4. 针对请求的不同参数返回相应数据，需在 `mock.config.js` 配置文件中 `mockServer` 的 `checkParams` 设置为 true 即可. 只针对非`just-mock`和`request`模式下的 `GET` 请求
+
 ### 设置请求前缀
 
 - /apis/ -> 接口数据
